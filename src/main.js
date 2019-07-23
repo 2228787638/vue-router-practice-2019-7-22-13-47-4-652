@@ -9,9 +9,12 @@ import Item from "./components/Item";
 import App from "./App";
 import Inputs from "./components/Inputs";
 import Home from "./components/Home";
+import Iview from "iview";
+import 'iview/dist/styles/iview.css';
 
 Vue.use(Vuex,VueAxios,axios,VueRouter);
 Vue.use(VueRouter);
+Vue.use(Iview);
 Vue.config.productionTip = false;
 
 const store = new Vuex.Store({
@@ -63,7 +66,8 @@ new Vue({
     router,
     store,
     axios,
-    VueAxios
+    VueAxios,
+    Iview
 }).$mount('#app');
 // new Vue({
 //     el:'#app',
