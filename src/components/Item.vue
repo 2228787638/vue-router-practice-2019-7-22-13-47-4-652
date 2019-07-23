@@ -1,28 +1,39 @@
 <template>
-
     <div>
         <Row>
             <Col span="8">
                 <Menu active-name="1" :open-names="['1']">
-                    <MenuItem name="1" @click.native="change(0)">All</MenuItem>
-                    <MenuItem name="2" @click.native="change(1)">Active</MenuItem>
-                    <MenuItem name="3" @click.native="change(2)">Complete</MenuItem>
-                    <MenuItem name="4">我的</MenuItem>
+                    <MenuItem name="1" @click.native="changeMenuItem(1)">TodoList列表</MenuItem>
+                    <MenuItem name="2" @click.native="changeMenuItem(2)">我的</MenuItem>
                 </Menu>
             </Col>
             <Col span="8">
-                <div v-for="(item,index) in items" :key="item.id">
-                    <div class="itemstyle">
-                        {{index+1}}.
-                        <input type="checkbox" v-model="item.active"/>
-                        <label v-bind:class="{changeCheckbox:item.active}" v-on:dblclick="changeContent(item.id,item.name)">
-                            <span v-if="item.editFlag">{{item.name}}</span>
-                            <span v-else><input v-model="item.name" type="text" @keyup.enter="enterClick(item.id)"></span>
-                        </label>
+                <div v-if="isList">
+                    <div v-for="(item,index) in items" :key="item.id">
+                        <div class="itemstyle">
+                            {{index+1}}.
+                            <input type="checkbox" v-model="item.active"/>
+                            <label v-bind:class="{changeCheckbox:item.active}" v-on:dblclick="changeContent(item.id,item.name)">
+                                <span v-if="item.editFlag">{{item.name}}</span>
+                                <span v-else><input v-model="item.name" type="text" @keyup.enter="enterClick(item.id)"></span>
+                            </label>
+                        </div>
                     </div>
+                    <ul class="footer">
+                        <li @click="change(0)" :class="{active:categoryIndex==0}">All</li>&nbsp;&nbsp;
+                        <li @click="change(1)" :class="{active:categoryIndex==1}">Active</li>&nbsp;&nbsp;
+                        <li @click="change(2)" :class="{active:categoryIndex==2}">Complete</li>
+                    </ul>
+                </div>
+                <div v-else>
+                    <p>头像：<Icon type="ios-basketball" /></p>
+                    <p>姓名:{{this.$route.query.name}}</p>
+                    <p>电话：12343221</p>
                 </div>
             </Col>
         </Row>
+
+
     </div>
 </template>
 
@@ -35,7 +46,8 @@
                 itemId:1,
                 items:this.$store.state.items,
                 status:this.$store.state.status,
-                categoryIndex: 0
+                categoryIndex: 0,
+                isList:true
             }
         },
         methods: {
@@ -59,6 +71,14 @@
             enterClick(id){
                 this.$store.commit('enterClick',id-1);
                 this.items[id-1].editFlag=true;
+            },
+            changeMenuItem(id){
+                if(id===1){
+                    this.isList=true;
+                }
+                if(id===2){
+                    this.isList=false;
+                }
             }
         }
     }
