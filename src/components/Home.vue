@@ -1,6 +1,7 @@
 <template>
     <div>
         <button @click="goback">返回</button>
+        <span class="right">用户名：{{this.$route.query.name}}</span>
         <Inputs></Inputs>
         <Item></Item>
     </div>
@@ -26,5 +27,7 @@
 </script>
 
 <style scoped>
-
+.right{
+    float: right;
+}
 </style>
